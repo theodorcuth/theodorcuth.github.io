@@ -46,65 +46,44 @@
     <!--HERO-->
 
     <section class="hero">
-      <div class="logo"></div>
-      <div class="hero-section">
-            <div class="hero-article">
-              <div class="item-3">
-                <a target=”_blank” href="https://www.pcgamer.com/weird-west-gets-a-zombie-apocalypse-mode-and-reveals-update-roadmap/" class="hero-card">
-                  <div class="hero-thumb" style="background-image: url(images/top1.jpg);"></div>
-                  <article>
-                    <h2>Weird West gets a zombie apocalypse mode and reveals update roadmap
-                    </h2>
-                    <p>The undead are causing some rootin' tootin' trouble
-                    </p>
-                    <span>PCGamer Article</span>
-                  </article>
-                </a>
-              </div>
-              </div>
-        <div class="hero-article">
-          <div class="item-2">
-            <a target=”_blank” href="https://gamerant.com/lords-of-the-fallen-2-release-date/" class="hero-card">
-              <div class="hero-thumb" style="background-image: url(images/top2.jpeg);"></div>
-              <article>
-                <h2>Soulslike Lords of the Fallen 2 Release Date Narrowed Down in New Report
-                </h2>
-                <p>Publisher CI Games narrows down the release date for the upcoming Soulslike Lords of the Fallen 2, while also confirming when it will reveal the game.
-                </p>
-                <span>GameRant Article</span>
-              </article>
-            </a>
-          </div>
-          </div>
+  <div class="logo"></div>
+  <div class="hero-section" id="ps-hero-section">
+    <!-- PlayStation Blog articles will load here -->
+  </div>
+</section>
+
+<script>
+  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://blog.playstation.com/feed/")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("ps-hero-section");
+
+      // Set a fallback image (you can use any image from your /images folder)
+      const fallbackImage = "images/playstation-default.jpg"; // <-- replace with your actual image
+
+      data.items.slice(0, 4).forEach(article => {
+        container.innerHTML += `
           <div class="hero-article">
             <div class="item-3">
-              <a target=”_blank” href="https://gamerant.com/grimgrimoire-oncemore-remaster-ps4-switch/" class="hero-card">
-                <div class="hero-thumb" style="background-image: url(images/top3.jpg);"></div>
+              <a target="_blank" href="${article.link}" class="hero-card">
+                <div class="hero-thumb" style="background-image: url('${fallbackImage}');"></div>
                 <article>
-                  <h2>PS2 Classic GrimGrimoire Getting Remastered for PS4 and Switch
-                  </h2>
-                  <p>A classic title from beloved 13 Sentinels: Aegis Rim developer Vanillaware is making a comeback on PS4 and Nintendo Switch later this year.
-                  </p>
-                  <span>GameRant Article</span>
+                  <h2>${article.title}</h2>
+                  <p>${article.description.replace(/<[^>]*>/g, '').slice(0, 120)}...</p>
+                  <span>PlayStation Blog</span>
                 </article>
               </a>
             </div>
-            </div>
-            <div class="hero-article">
-              <div class="item-3">
-                <a target=”_blank” href="https://kotaku.com/elden-ring-tilt-shift-photomode-camera-mod-flurdeh-yout-1848784217" class="hero-card">
-                  <div class="hero-thumb" style="background-image: url(images/top4.png);"></div>
-                  <article>
-                    <h2>Elden Ring Looks Tiny, Adorable With ‘Tilt-Shifted’ Camera
-                    </h2>
-                    <p>FromSoftware’s latest isn’t particularly cozy, but YouTuber Flurdeh makes it look so
-                    </p>
-                    <span>Kotaku Article</span>
-                  </article>
-                </a>
-              </div>
-              </div>
-      </div>
+          </div>
+        `;
+      });
+    })
+    .catch(err => {
+      console.error("Failed to fetch PlayStation Blog articles", err);
+      document.getElementById("ps-hero-section").innerHTML = "<p>Unable to load PlayStation Blog articles.</p>";
+    });
+</script>
+
     <!--Article-->
 
 
