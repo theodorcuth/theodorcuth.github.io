@@ -10,7 +10,13 @@ app.get("/og", async (req, res) => {
   if (!url) return res.status(400).json({ error: "Missing URL" });
 
   try {
-    const { result } = await ogs({ url });
+    const options = {
+      url,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115 Safari/537.36'
+      }
+    };
+    const { result } = await ogs(options);
     res.json({
       title: result.ogTitle,
       image: result.ogImage?.url || null,
